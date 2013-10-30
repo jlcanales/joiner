@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+
+	<bean id="alfManagedConnectionFactory" class="org.metastorage.jca.alfresco.AlfManagedConnectionFactoryImpl" destroy-method="finalize">
+		<property name="webServiceUrl" value="http://uskopdcapp51d.yellglobal.net:8080/alfresco/api"/>
+	</bean>
+
+	<bean id="alfTargetConnectionFactory" class="org.springframework.jca.support.LocalConnectionFactoryBean">
+		<property name="managedConnectionFactory" ref="alfManagedConnectionFactory"></property>
+	</bean>
+
+	<bean id="alfConnectionFactory" class="org.springframework.jca.cci.connection.ConnectionSpecConnectionFactoryAdapter">
+		<property name="targetConnectionFactory" ref="alfTargetConnectionFactory"/>
+		<property name="connectionSpec">
+			<bean class="org.metastorage.jca.alfresco.connection.AlfConnectionSpec">
+				<property name="user" value="SVCVIS_DEV-ACDC"/>
+				<property name="password" value="D3V1s123"/>			
+			</bean>
+		
+		</property>
+	
+	</bean>
+
+</beans>
